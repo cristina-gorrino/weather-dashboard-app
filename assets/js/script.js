@@ -3,7 +3,9 @@ var searchInputEl = document.getElementById("search-input");
 var dateTodayEl = document.getElementById("today-date");
 var apiKey = "311c0892c00fa382bff35cbf6cb91b8d";
 
-searchFormEl.addEventListener("submit", function(event){
+searchFormEl.addEventListener("submit", getWeatherData);
+
+function getWeatherData(event) {
     event.preventDefault();
     var searchCity = searchInputEl.value;
     fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + searchCity + "&limit=1&appid=" + apiKey)
@@ -16,10 +18,25 @@ searchFormEl.addEventListener("submit", function(event){
                     .then(function(weatherResponse){
                         return weatherResponse.json()
                         .then(function(weatherData){
-                            var date = moment.unix(weatherData.current.dt).format("MM/DD/YYYY");
-                            dateTodayEl.textContent = date;
+                            var todayDate = moment.unix(weatherData.current.dt).format("MM/DD/YYYY");
+                            dateTodayEl.textContent = todayDate;
+                            showWeatherSections();
                         })
                     }) 
             })
         })
-})
+}
+
+function showWeatherSections () {
+    // display the today's weather card
+    // display the 5 day forecast cards
+}
+
+function displayWeatherData () {
+    // Take the vars of weather data taken from the api and add them to the UI elements
+}
+
+// TODO: error handling, check for bad request and display warning on page?
+// TODO: Use col layout to improve spacing and sizing between weather cards
+// TODO: use font-awesome to add icon to search form
+// TODO: think about adding a better font
