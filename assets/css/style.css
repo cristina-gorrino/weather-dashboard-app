@@ -1,0 +1,20 @@
+main {
+  display: flex;  
+}
+
+form {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.five-day-weather {
+    display: flex;
+}
+
+.uv-container {
+    display: flex;
+    
+    
+}
