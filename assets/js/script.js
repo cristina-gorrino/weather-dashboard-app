@@ -71,13 +71,26 @@ function displayWeatherData (cityName, todayDate, currentTemp, currentIcon, curr
     currentHumidEl.textContent = currentHumid;
     currentWindEl.textContent = currentWind;
     currentUvEl.textContent = currentUV;
-
+    styleUV(currentUV);
+    
     day1DateEl.textContent = day1Date;
     day1IconEl.setAttribute("src","http://openweathermap.org/img/w/"+ day1Icon +".png");
     day1TempEl.textContent = day1Temp;
     day1HumidEl.textContent = day1Humid;
 
+}
 
+function styleUV(currentUV) {
+    if (currentUV <= 2){
+        // favorable UV index conditions
+        currentUvEl.setAttribute("class", "badge bg-success");
+    } else if (currentUV >2 && currentUV <= 7) {
+        // moderate UV index conditions
+        currentUvEl.setAttribute("class", "badge bg-warning");
+    } else if (currentUV >=8) {
+         // severe UV index conditions
+        currentUvEl.setAttribute("class", "badge bg-danger");
+    }
     
 }
 
