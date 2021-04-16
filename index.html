@@ -31,25 +31,28 @@
         <div class="weather-display">
             <div class="card w-57">
                 <div class="card-body">
-                  <h5 class="card-title">City name</h5>
-                  <div id ="today-date"></div>
-                  <h6 class="card-subtitle mb-2 text-muted">Temperature: 90F</h6>
-                  <p class="card-text">Humidity: 41%</p>
-                  <p class="card-text">Wind Speed: 4.7MPH</p>
+                  <h5 class="card-title" id ="city-name">City name</h5> 
+                  <span id="today-date"></span> 
+                  <img id="current-icon" src="" alt="current weather icon">
+                  <h6 class="card-subtitle mb-2 text-muted">Temperature: <span id="current-temp"></span> °F</h6>
+                  <p class="card-text">Humidity: <span id="current-humidity"></span>%</p>
+                  <p class="card-text">Wind Speed: <span id="current-wind"></span>MPH</p>
                   <div class="uv-container">
-                    <p class="card-text">UV Index:</p>
-                    <span class="badge bg-danger">9.49</span>
+                    <p class="card-text">UV Index: <span id="current-uv" class="badge bg-danger">9.49</span></p>
+                    
                   </div>
                 </div>
             </div>
 
+            <h2>5 Day Forecast</h2>
+
             <div class ="five-day-weather">
                 <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
                     <div class="card-body">
-                      <h5 class="card-title">Date</h5>
-                      <div>icon</div>
-                      <p class="card-text">Temp: 80F</p>
-                      <p class="card-text"> Humidity: 30%</p>
+                      <h5 id="day1-date" class="card-title">Date</h5>
+                      <img id="day1-icon" src ="" alt="weather icon">
+                      <p class="card-text">Temp: <span id="day1-temp"></span>°F</p>
+                      <p class="card-text"> Humidity: <span id="day1-humidity"></span>%</p>
                     </div>
                 </div>
 
