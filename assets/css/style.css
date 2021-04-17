@@ -14,8 +14,7 @@ form {
     justify-content: space-between;
 }
 
-.uv-container {
+#history-button-container{
     display: flex;
-    
-    
+    flex-direction: column;
 }

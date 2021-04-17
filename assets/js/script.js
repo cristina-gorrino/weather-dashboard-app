@@ -1,5 +1,6 @@
 var searchFormEl = document.getElementById("search-form");
 var searchInputEl = document.getElementById("search-input");
+var historyContainerEl = document.getElementById("history-button-container");
 
 var dateTodayEl = document.getElementById("today-date");
 var cityNameEl = document.getElementById("city-name");
@@ -15,6 +16,7 @@ var day1TempEl = document.getElementById("day1-temp");
 var day1HumidEl = document.getElementById("day1-humidity");
 
 var apiKey = "311c0892c00fa382bff35cbf6cb91b8d";
+var historyArr = [];
 
 searchFormEl.addEventListener("submit", getWeatherData);
 
@@ -28,6 +30,8 @@ function getWeatherData(event) {
                 var lat = geoData[0].lat;
                 var lon = geoData[0].lon;
                 var cityName = geoData[0].name;
+                historyArr.push({"city":cityName, "longitude": lon, "latitude": lat})
+                localStorage.setItem("historyArr", JSON.stringify(historyArr));
                 fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon +"&appid=" + apiKey + "&units=imperial")
                     .then(function(weatherResponse){
                         return weatherResponse.json()
@@ -95,7 +99,38 @@ function styleUV(currentUV) {
 }
 
 // TODO: error handling, check for bad request and display warning on page?
-// TODO: Use col layout to improve spacing and sizing between weather cards
 // TODO: use font-awesome to add icon to search form
 // TODO: think about adding a better font
 // TODO: improvement, use loop to get 5 day forecast values and add them to UI
+// TODO: add local storage for search, lat, long
+// TODO: add listener for history buttons that calls search
+
+/*
+$(".saveBtn").on("click", function() {
+
+    var timeBlock = $(this).siblings(".hour").text();
+    var event = $(this).siblings("input").val();
+    localStorage.setItem(timeBlock, event);
+})
+
+inputEls.each(function() {
+    var getTimeblock = $(this).siblings(".hour").text();
+    $(this).val(localStorage.getItem(getTimeblock));
+})
+*/
+function makeCityButtons() {
+    var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
+    console.log(storedCityInfo);
+    for (var i = 0; i < storedCityInfo.length; i++){
+        var cityButtonEl = document.createElement("button");
+        cityButtonEl.setAttribute("type", "button")
+        cityButtonEl.setAttribute("class", "city-history btn btn-primary");
+        cityButtonEl.textContent = storedCityInfo[i].city;
+        historyContainerEl.appendChild(cityButtonEl);
+    }
+
+    
+}function init() {
+    makeCityButtons();
+}
+init();
