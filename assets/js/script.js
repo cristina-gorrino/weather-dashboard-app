@@ -11,14 +11,11 @@ var currentHumidEl = document.getElementById("current-humidity");
 var currentWindEl = document.getElementById("current-wind");
 var currentUvEl = document.getElementById("current-uv");
 
-var day1DateEl = document.getElementById("day1-date");
-var day1IconEl = document.getElementById("day1-icon");
-var day1TempEl = document.getElementById("day1-temp");
-var day1HumidEl = document.getElementById("day1-humidity");
+
 
 var apiKey = "311c0892c00fa382bff35cbf6cb91b8d";
 var historyArr = [];
-var fiveDayForecast = []
+
 
 searchFormEl.addEventListener("submit", getWeatherData);
 
@@ -49,6 +46,7 @@ function getWeatherData(event) {
 
                             }
                             
+                            var fiveDayForecast = []
                             for (var i = 1; i < 6; i++) {
                                 var forecast = {
                                     day: i,
@@ -61,10 +59,6 @@ function getWeatherData(event) {
                             }
                             console.log(fiveDayForecast);
 
-                            
-                            
-                            console.log(geoData);
-                            console.log(weatherData);
                             showWeatherSections();
                             displayWeatherData(currentWeather, fiveDayForecast);
                             
@@ -91,10 +85,12 @@ function displayWeatherData (currentWeather, fiveDayForecast) {
     currentUvEl.textContent = currentWeather.uvi;
     styleUV(currentWeather.uvi);
     
-    day1DateEl.textContent = day1Date;
-    day1IconEl.setAttribute("src","http://openweathermap.org/img/w/"+ day1Icon +".png");
-    day1TempEl.textContent = day1Temp;
-    day1HumidEl.textContent = day1Humid;
+    for (var i = 0; i<5; i++){
+        document.getElementById("day"+ (i+1) +"-date").textContent = fiveDayForecast[i].date;
+        document.getElementById("day"+ (i+1) +"-icon").setAttribute("src","http://openweathermap.org/img/w/"+ fiveDayForecast[i].icon +".png")
+        document.getElementById("day"+ (i+1) +"-temp").textContent = fiveDayForecast[i].temp;
+        document.getElementById("day"+ (i+1) +"-humidity").textContent = fiveDayForecast[i].humidity;
+    }
 
 }
 
@@ -115,7 +111,6 @@ function styleUV(currentUV) {
 // TODO: error handling, check for bad request and display warning on page?
 // TODO: use font-awesome to add icon to search form
 // TODO: think about adding a better font
-// TODO: improvement, use loop to get 5 day forecast values and add them to UI
 // TODO: add listener for history buttons that calls search
 
 
@@ -145,7 +140,7 @@ historyContainerEl.addEventListener("click", function(event) {
                         return weatherResponse.json()
                         .then(function(weatherData){
                             var currentWeather = {
-                                city: cityName,
+                                city: searchCity,
                                 date: moment.unix(weatherData.current.dt).format("MM/DD/YYYY"),
                                 icon: weatherData.current.weather[0].icon,
                                 temp: weatherData.current.temp,
@@ -155,6 +150,7 @@ historyContainerEl.addEventListener("click", function(event) {
 
                             }
                             
+                            var fiveDayForecast = []
                             for (var i = 1; i < 6; i++) {
                                 var forecast = {
                                     day: i,
@@ -166,8 +162,7 @@ historyContainerEl.addEventListener("click", function(event) {
                                 fiveDayForecast.push(forecast);
                             }
                             
-                            
-                            console.log(weatherData);
+
                             showWeatherSections();
                             displayWeatherData(currentWeather, fiveDayForecast);
                             
