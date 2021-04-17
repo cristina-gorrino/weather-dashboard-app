@@ -1,6 +1,7 @@
 var searchFormEl = document.getElementById("search-form");
 var searchInputEl = document.getElementById("search-input");
 var historyContainerEl = document.getElementById("history-button-container");
+var ciityHistoryButtons = document.querySelectorAll(".city-history");
 
 var dateTodayEl = document.getElementById("today-date");
 var cityNameEl = document.getElementById("city-name");
@@ -102,35 +103,57 @@ function styleUV(currentUV) {
 // TODO: use font-awesome to add icon to search form
 // TODO: think about adding a better font
 // TODO: improvement, use loop to get 5 day forecast values and add them to UI
-// TODO: add local storage for search, lat, long
 // TODO: add listener for history buttons that calls search
 
-/*
-$(".saveBtn").on("click", function() {
 
-    var timeBlock = $(this).siblings(".hour").text();
-    var event = $(this).siblings("input").val();
-    localStorage.setItem(timeBlock, event);
-})
-
-inputEls.each(function() {
-    var getTimeblock = $(this).siblings(".hour").text();
-    $(this).val(localStorage.getItem(getTimeblock));
-})
-*/
 function makeCityButtons() {
     var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
-    console.log(storedCityInfo);
+
     for (var i = 0; i < storedCityInfo.length; i++){
         var cityButtonEl = document.createElement("button");
         cityButtonEl.setAttribute("type", "button")
         cityButtonEl.setAttribute("class", "city-history btn btn-primary");
         cityButtonEl.textContent = storedCityInfo[i].city;
         historyContainerEl.appendChild(cityButtonEl);
-    }
+    } 
+}
 
+historyContainerEl.addEventListener("click", function(event) {
+    var searchCity = event.target.textContent;
+    var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
+    for (var i = 0; i< storedCityInfo.length; i++) {
+        if (searchCity === storedCityInfo[i].city) {
+            var lat = storedCityInfo[i].latitude;
+            var lon = storedCityInfo[i].longitude;
+        }
+    }
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon +"&appid=" + apiKey + "&units=imperial")
+                    .then(function(weatherResponse){
+                        return weatherResponse.json()
+                        .then(function(weatherData){
+                            var todayDate = moment.unix(weatherData.current.dt).format("MM/DD/YYYY");
+                            var currentIcon = weatherData.current.weather[0].icon;
+                            var currentTemp = weatherData.current.temp;
+                            var currentHumid = weatherData.current.humidity;
+                            var currentWind = weatherData.current.wind_speed;
+                            var currentUV = weatherData.current.uvi;
+                            
+                            var day1Date = moment.unix(weatherData.daily[1].dt).format("MM/DD/YYYY");
+                            var day1Icon = weatherData.daily[1].weather[0].icon;
+                            var day1Temp = weatherData.daily[1].temp.day;
+                            var day1Humid = weatherData.daily[1].humidity;
+                            
+                            
+                            console.log(weatherData);
+                            showWeatherSections();
+                            displayWeatherData(searchCity, todayDate, currentTemp, currentIcon, currentHumid, currentWind, currentUV, day1Date, day1Temp, day1Icon, day1Humid);
+                            
+                        })
+                    }) 
     
-}function init() {
+})
+
+function init() {
     makeCityButtons();
 }
 init();
