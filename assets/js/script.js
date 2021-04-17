@@ -18,6 +18,7 @@ var day1HumidEl = document.getElementById("day1-humidity");
 
 var apiKey = "311c0892c00fa382bff35cbf6cb91b8d";
 var historyArr = [];
+var fiveDayForecast = []
 
 searchFormEl.addEventListener("submit", getWeatherData);
 
@@ -37,23 +38,35 @@ function getWeatherData(event) {
                     .then(function(weatherResponse){
                         return weatherResponse.json()
                         .then(function(weatherData){
-                            var todayDate = moment.unix(weatherData.current.dt).format("MM/DD/YYYY");
-                            var currentIcon = weatherData.current.weather[0].icon;
-                            var currentTemp = weatherData.current.temp;
-                            var currentHumid = weatherData.current.humidity;
-                            var currentWind = weatherData.current.wind_speed;
-                            var currentUV = weatherData.current.uvi;
+                            var currentWeather = {
+                                city: cityName,
+                                date: moment.unix(weatherData.current.dt).format("MM/DD/YYYY"),
+                                icon: weatherData.current.weather[0].icon,
+                                temp: weatherData.current.temp,
+                                humidity: weatherData.current.humidity,
+                                wind: weatherData.current.wind_speed,
+                                uvi: weatherData.current.uvi
+
+                            }
                             
-                            var day1Date = moment.unix(weatherData.daily[1].dt).format("MM/DD/YYYY");
-                            var day1Icon = weatherData.daily[1].weather[0].icon;
-                            var day1Temp = weatherData.daily[1].temp.day;
-                            var day1Humid = weatherData.daily[1].humidity;
+                            for (var i = 1; i < 6; i++) {
+                                var forecast = {
+                                    day: i,
+                                    date: moment.unix(weatherData.daily[i].dt).format("MM/DD/YYYY"),
+                                    icon: weatherData.daily[i].weather[0].icon,
+                                    temp: weatherData.daily[i].temp.day,
+                                    humidity: weatherData.daily[i].humidity
+                                }
+                                fiveDayForecast.push(forecast);
+                            }
+                            console.log(fiveDayForecast);
+
                             
                             
                             console.log(geoData);
                             console.log(weatherData);
                             showWeatherSections();
-                            displayWeatherData(cityName, todayDate, currentTemp, currentIcon, currentHumid, currentWind, currentUV, day1Date, day1Temp, day1Icon, day1Humid);
+                            displayWeatherData(currentWeather, fiveDayForecast);
                             
                         })
                     }) 
@@ -66,17 +79,17 @@ function showWeatherSections () {
     // display the 5 day forecast cards
 }
 
-function displayWeatherData (cityName, todayDate, currentTemp, currentIcon, currentHumid, currentWind, currentUV, day1Date, day1Temp, day1Icon, day1Humid) {
+function displayWeatherData (currentWeather, fiveDayForecast) {
     // Take the vars of weather data taken from the api and add them to the UI elements
-    cityNameEl.textContent = cityName;
-    dateTodayEl.textContent = todayDate;
-    currentIconEl.setAttribute("src", "http://openweathermap.org/img/w/"+ currentIcon +".png");
+    cityNameEl.textContent = currentWeather.city;
+    dateTodayEl.textContent = currentWeather.date;
+    currentIconEl.setAttribute("src", "http://openweathermap.org/img/w/"+ currentWeather.icon +".png");
     // TODO improvement: set alt text from weather description
-    currentTempEl.textContent = currentTemp;
-    currentHumidEl.textContent = currentHumid;
-    currentWindEl.textContent = currentWind;
-    currentUvEl.textContent = currentUV;
-    styleUV(currentUV);
+    currentTempEl.textContent = currentWeather.temp;
+    currentHumidEl.textContent = currentWeather.humidity;
+    currentWindEl.textContent = currentWeather.wind;
+    currentUvEl.textContent = currentWeather.uvi;
+    styleUV(currentWeather.uvi);
     
     day1DateEl.textContent = day1Date;
     day1IconEl.setAttribute("src","http://openweathermap.org/img/w/"+ day1Icon +".png");
@@ -131,22 +144,32 @@ historyContainerEl.addEventListener("click", function(event) {
                     .then(function(weatherResponse){
                         return weatherResponse.json()
                         .then(function(weatherData){
-                            var todayDate = moment.unix(weatherData.current.dt).format("MM/DD/YYYY");
-                            var currentIcon = weatherData.current.weather[0].icon;
-                            var currentTemp = weatherData.current.temp;
-                            var currentHumid = weatherData.current.humidity;
-                            var currentWind = weatherData.current.wind_speed;
-                            var currentUV = weatherData.current.uvi;
+                            var currentWeather = {
+                                city: cityName,
+                                date: moment.unix(weatherData.current.dt).format("MM/DD/YYYY"),
+                                icon: weatherData.current.weather[0].icon,
+                                temp: weatherData.current.temp,
+                                humidity: weatherData.current.humidity,
+                                wind: weatherData.current.wind_speed,
+                                uvi: weatherData.current.uvi
+
+                            }
                             
-                            var day1Date = moment.unix(weatherData.daily[1].dt).format("MM/DD/YYYY");
-                            var day1Icon = weatherData.daily[1].weather[0].icon;
-                            var day1Temp = weatherData.daily[1].temp.day;
-                            var day1Humid = weatherData.daily[1].humidity;
+                            for (var i = 1; i < 6; i++) {
+                                var forecast = {
+                                    day: i,
+                                    date: moment.unix(weatherData.daily[i].dt).format("MM/DD/YYYY"),
+                                    icon: weatherData.daily[i].weather[0].icon,
+                                    temp: weatherData.daily[i].temp.day,
+                                    humidity: weatherData.daily[i].humidity
+                                }
+                                fiveDayForecast.push(forecast);
+                            }
                             
                             
                             console.log(weatherData);
                             showWeatherSections();
-                            displayWeatherData(searchCity, todayDate, currentTemp, currentIcon, currentHumid, currentWind, currentUV, day1Date, day1Temp, day1Icon, day1Humid);
+                            displayWeatherData(currentWeather, fiveDayForecast);
                             
                         })
                     }) 
