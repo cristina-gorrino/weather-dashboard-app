@@ -14,7 +14,7 @@ var currentUvEl = document.getElementById("current-uv");
 
 
 var apiKey = "311c0892c00fa382bff35cbf6cb91b8d";
-var historyArr = [];
+var historyArr = JSON.parse(localStorage.getItem("historyArr")) || [];
 
 
 searchFormEl.addEventListener("submit", getWeatherData);
@@ -22,6 +22,8 @@ searchFormEl.addEventListener("submit", getWeatherData);
 function getWeatherData(event) {
     event.preventDefault();
     var searchCity = searchInputEl.value;
+    searchInputEl.value = "";
+
     fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + searchCity + "&limit=1&appid=" + apiKey)
         .then(function(geoResponse){
             return geoResponse.json()     
@@ -29,7 +31,7 @@ function getWeatherData(event) {
                 var lat = geoData[0].lat;
                 var lon = geoData[0].lon;
                 var cityName = geoData[0].name;
-                historyArr.push({"city":cityName, "longitude": lon, "latitude": lat})
+                historyArr.push({"city":cityName, "longitude": lon, "latitude": lat});
                 localStorage.setItem("historyArr", JSON.stringify(historyArr));
                 fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon +"&appid=" + apiKey + "&units=imperial")
                     .then(function(weatherResponse){
@@ -57,19 +59,22 @@ function getWeatherData(event) {
                                 }
                                 fiveDayForecast.push(forecast);
                             }
-                            console.log(fiveDayForecast);
 
                             showWeatherSections();
+                            
                             displayWeatherData(currentWeather, fiveDayForecast);
+                            makeCityButtons();
                             
                         })
                     }) 
             })
         })
+        
 }
 
+
 function showWeatherSections () {
-    // display the today's weather card
+    // TODO: display the today's weather card
     // display the 5 day forecast cards
 }
 
@@ -111,20 +116,22 @@ function styleUV(currentUV) {
 // TODO: error handling, check for bad request and display warning on page?
 // TODO: use font-awesome to add icon to search form
 // TODO: think about adding a better font
-// TODO: add listener for history buttons that calls search
-
 
 function makeCityButtons() {
+    historyContainerEl.textContent = ""
     var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
+    if (storedCityInfo) {
+        for (var i = 0; i < storedCityInfo.length; i++){
+            var cityButtonEl = document.createElement("button");
+            cityButtonEl.setAttribute("type", "button")
+            cityButtonEl.setAttribute("class", "city-history btn btn-primary");
+            cityButtonEl.textContent = storedCityInfo[i].city;
+            historyContainerEl.appendChild(cityButtonEl);
+        } 
+    }
 
-    for (var i = 0; i < storedCityInfo.length; i++){
-        var cityButtonEl = document.createElement("button");
-        cityButtonEl.setAttribute("type", "button")
-        cityButtonEl.setAttribute("class", "city-history btn btn-primary");
-        cityButtonEl.textContent = storedCityInfo[i].city;
-        historyContainerEl.appendChild(cityButtonEl);
-    } 
 }
+makeCityButtons();
 
 historyContainerEl.addEventListener("click", function(event) {
     var searchCity = event.target.textContent;
@@ -171,7 +178,3 @@ historyContainerEl.addEventListener("click", function(event) {
     
 })
 
-function init() {
-    makeCityButtons();
-}
-init();
