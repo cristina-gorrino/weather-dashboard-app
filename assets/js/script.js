@@ -84,7 +84,7 @@ function displayWeatherData (currentWeather, fiveDayForecast) {
     // Take the vars of weather data taken from the api and add them to the UI elements
     cityNameEl.textContent = currentWeather.city;
     dateTodayEl.textContent = currentWeather.date;
-    currentIconEl.setAttribute("src", "http://openweathermap.org/img/w/"+ currentWeather.icon +".png");
+    currentIconEl.setAttribute("src", "https://openweathermap.org/img/w/"+ currentWeather.icon +".png");
     currentTempEl.textContent = currentWeather.temp;
     currentHumidEl.textContent = currentWeather.humidity;
     currentWindEl.textContent = currentWeather.wind;
@@ -93,7 +93,7 @@ function displayWeatherData (currentWeather, fiveDayForecast) {
     
     for (var i = 0; i<5; i++){
         document.getElementById("day"+ (i+1) +"-date").textContent = fiveDayForecast[i].date;
-        document.getElementById("day"+ (i+1) +"-icon").setAttribute("src","http://openweathermap.org/img/w/"+ fiveDayForecast[i].icon +".png")
+        document.getElementById("day"+ (i+1) +"-icon").setAttribute("src","https://openweathermap.org/img/w/"+ fiveDayForecast[i].icon +".png")
         document.getElementById("day"+ (i+1) +"-temp").textContent = fiveDayForecast[i].temp;
         document.getElementById("day"+ (i+1) +"-humidity").textContent = fiveDayForecast[i].humidity;
     }

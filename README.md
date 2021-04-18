@@ -1,6 +1,6 @@
 # Weather Dashboard App
 
-URL: placeholder
+URL: https://cristina-gorrino.github.io/weather-dashboard-app/
 
 Purpose: To create a weather dashboard app that allows users to rearch for a city and get a weather forecast.
 
