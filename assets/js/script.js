@@ -66,7 +66,13 @@ function getWeatherData(event) {
                             makeCityButtons();
                             
                         })
-                    }) 
+                        .catch(err => {
+                            console.error(err);
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    }); 
             })
         })
         
@@ -113,8 +119,6 @@ function styleUV(currentUV) {
     }
     
 }
-
-// TODO: error handling, check for bad request and display warning on page?
 
 function makeCityButtons() {
     // Takes city history from local storage, and display the buttons on loading the page
@@ -170,12 +174,18 @@ historyContainerEl.addEventListener("click", function(event) {
                                 fiveDayForecast.push(forecast);
                             }
                             
-
                             showWeatherSections();
                             displayWeatherData(currentWeather, fiveDayForecast);
+
                             
                         })
-                    }) 
+                        .catch(err => {
+                            console.error(err);
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    }); 
     
 })
 
