@@ -13,6 +13,9 @@ form {
     display: flex;
     justify-content: space-between;
 }
+.hidden {
+    display: none;
+}
 
 #history-button-container{
     display: flex;

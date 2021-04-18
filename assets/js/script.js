@@ -74,8 +74,10 @@ function getWeatherData(event) {
 
 
 function showWeatherSections () {
-    // TODO: display the today's weather card
-    // display the 5 day forecast cards
+    // Show this UI when after a search, when there is data to display
+    document.querySelector(".weather-display").setAttribute("style","display: block");
+    document.querySelector(".five-day-weather").setAttribute("style", "display: flex");
+
 }
 
 function displayWeatherData (currentWeather, fiveDayForecast) {
@@ -83,7 +85,6 @@ function displayWeatherData (currentWeather, fiveDayForecast) {
     cityNameEl.textContent = currentWeather.city;
     dateTodayEl.textContent = currentWeather.date;
     currentIconEl.setAttribute("src", "http://openweathermap.org/img/w/"+ currentWeather.icon +".png");
-    // TODO improvement: set alt text from weather description
     currentTempEl.textContent = currentWeather.temp;
     currentHumidEl.textContent = currentWeather.humidity;
     currentWindEl.textContent = currentWeather.wind;
@@ -114,10 +115,9 @@ function styleUV(currentUV) {
 }
 
 // TODO: error handling, check for bad request and display warning on page?
-// TODO: use font-awesome to add icon to search form
-// TODO: think about adding a better font
 
 function makeCityButtons() {
+    // Takes city history from local storage, and display the buttons on loading the page
     historyContainerEl.textContent = ""
     var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
     if (storedCityInfo) {
@@ -134,6 +134,7 @@ function makeCityButtons() {
 makeCityButtons();
 
 historyContainerEl.addEventListener("click", function(event) {
+    // Takes the stored data related to the history buttons, and calls the API with the saved lat, lon data
     var searchCity = event.target.textContent;
     var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
     for (var i = 0; i< storedCityInfo.length; i++) {
