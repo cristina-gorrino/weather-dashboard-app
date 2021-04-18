@@ -10,6 +10,7 @@ var currentTempEl = document.getElementById("current-temp");
 var currentHumidEl = document.getElementById("current-humidity");
 var currentWindEl = document.getElementById("current-wind");
 var currentUvEl = document.getElementById("current-uv");
+var errorMessage = document.createElement("p");
 
 
 
@@ -21,6 +22,7 @@ searchFormEl.addEventListener("submit", getWeatherData);
 
 function getWeatherData(event) {
     event.preventDefault();
+    errorMessage.textContent = "";
     var searchCity = searchInputEl.value;
     searchInputEl.value = "";
 
@@ -67,28 +69,28 @@ function getWeatherData(event) {
                             
                         })
                         .catch(err => {
-                            var errorMessage = document.createElement("p");
+
                             errorMessage.textContent = "Unsuccessful request. Please search again";
                             historyContainerEl.appendChild(errorMessage);
                             console.error(err);
                         });
                     })
                     .catch(err => {
-                        var errorMessage = document.createElement("p");
+
                         errorMessage.textContent = "Unsuccessful request. Please search again";
                         historyContainerEl.appendChild(errorMessage);
                         console.error(err);
                     }); 
             })
             .catch(err => {
-                var errorMessage = document.createElement("p");
+
                 errorMessage.textContent = "Unsuccessful request. Please search again";
                 historyContainerEl.appendChild(errorMessage);
                 console.error(err);
             }); 
         })
         .catch(err => {
-            var errorMessage = document.createElement("p");
+
             errorMessage.textContent = "Unsuccessful request. Please search again";
             historyContainerEl.appendChild(errorMessage);
             console.error(err);
@@ -156,6 +158,7 @@ function makeCityButtons() {
 makeCityButtons();
 
 historyContainerEl.addEventListener("click", function(event) {
+    errorMessage.textContent = "";
     // Takes the stored data related to the history buttons, and calls the API with the saved lat, lon data
     var searchCity = event.target.textContent;
     var storedCityInfo = JSON.parse(localStorage.getItem("historyArr"));
