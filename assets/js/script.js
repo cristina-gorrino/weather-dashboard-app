@@ -24,7 +24,7 @@ function getWeatherData(event) {
     var searchCity = searchInputEl.value;
     searchInputEl.value = "";
 
-    fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + searchCity + "&limit=1&appid=" + apiKey)
+    fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + searchCity + "&limit=1&appid=" + apiKey)
         .then(function(geoResponse){
             return geoResponse.json()     
             .then(function(geoData){
