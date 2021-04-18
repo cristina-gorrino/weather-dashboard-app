@@ -67,14 +67,32 @@ function getWeatherData(event) {
                             
                         })
                         .catch(err => {
+                            var errorMessage = document.createElement("p");
+                            errorMessage.textContent = "Unsuccessful request. Please search again";
+                            historyContainerEl.appendChild(errorMessage);
                             console.error(err);
                         });
                     })
                     .catch(err => {
+                        var errorMessage = document.createElement("p");
+                        errorMessage.textContent = "Unsuccessful request. Please search again";
+                        historyContainerEl.appendChild(errorMessage);
                         console.error(err);
                     }); 
             })
+            .catch(err => {
+                var errorMessage = document.createElement("p");
+                errorMessage.textContent = "Unsuccessful request. Please search again";
+                historyContainerEl.appendChild(errorMessage);
+                console.error(err);
+            }); 
         })
+        .catch(err => {
+            var errorMessage = document.createElement("p");
+            errorMessage.textContent = "Unsuccessful request. Please search again";
+            historyContainerEl.appendChild(errorMessage);
+            console.error(err);
+        }); 
         
 }
 
@@ -180,10 +198,16 @@ historyContainerEl.addEventListener("click", function(event) {
                             
                         })
                         .catch(err => {
+                            var errorMessage = document.createElement("p");
+                            errorMessage.textContent = "Unsuccessful request. Please search again";
+                            historyContainerEl.appendChild(errorMessage);
                             console.error(err);
                         });
                     })
                     .catch(err => {
+                        var errorMessage = document.createElement("p");
+                        errorMessage.textContent = "Unsuccessful request. Please search again";
+                        historyContainerEl.appendChild(errorMessage);
                         console.error(err);
                     }); 
     
