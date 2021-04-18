@@ -14,4 +14,6 @@ When the user searches for a city that data is saved in local storage, and can b
 
 Below are some examples of the look and functionality of this app
 
-![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.](./Assets/06-server-side-apis-homework-demo.png)
+![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Austin.](./assets/images/weather1.png "View with weather data and history of searched cities")
+
+![If the user makes a bad request, like making a typo in the city name, the app provides an error message.](./assets/images/weather-error.png "Example of an error message")
